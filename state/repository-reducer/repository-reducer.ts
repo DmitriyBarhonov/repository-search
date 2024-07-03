@@ -1,31 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRepository } from "./repos-async-actions";
+import { getListRepository } from "./repository-async-actions";
+import { Repository } from "./repository-reducer-types";
 
-type resporsSliceType = {
-  currentRepository: null;
-  RepositoryList: null;
+type initialStateType = {
+  repositoryList: Repository[];
+  repositoryCount: number
   currentPage: number;
-  isLoading: boolean;
-  error: null;
-}
+};
 
-const initialState: resporsSliceType = {
-  currentRepository: null,
-  RepositoryList: null,
+const initialState: initialStateType = {
+  repositoryList: [],
+  repositoryCount: 0,
   currentPage: 1,
-  isLoading: false,
-  error: null,
 };
 
 const resporsSlice = createSlice({
   name: "repositories",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getRepository.fulfilled, (state, action) => {
-      console.log(action.payload);
+    builder.addCase(getListRepository.fulfilled, (state, action) => {
+      state.repositoryList = action.payload.search.nodes;
+      state.repositoryCount = action.payload.search.repositoryCount
     });
   },
 });
 
-export const resporsReducer = resporsSlice.reducer;
+export const repositoryReducer = resporsSlice.reducer;
+export const repositoryActions = resporsSlice.actions.setCurrentPage;

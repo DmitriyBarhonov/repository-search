@@ -1,21 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { client } from "../../services/apollo-client";
-import { GET_REPOS, TOP_REPOS } from "../../services/get-repos";
 import {
   GetRepositoryResponseData,
   GetRepositoryVariables,
   GetTopRepositoryResponseData,
 } from "./repository-reducer-types";
+import { GET_REPOS, TOP_REPOS, client } from "../../services";
 
-export const getRepository = createAsyncThunk<
+export const getListRepository = createAsyncThunk<
   GetRepositoryResponseData,
   GetRepositoryVariables,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { rejectValue: any }
->("repositories/fetchSomeData", async (_, thunkAPI) => {
+>("repositories/fetchSomeData", async (params, thunkAPI) => {
   try {
     const response = await client.query({
       query: GET_REPOS,
+      variables: { getQuery: params.getQuery },
     });
     return response.data;
   } catch (error) {
@@ -26,15 +26,16 @@ export const getRepository = createAsyncThunk<
     return thunkAPI.rejectWithValue({ message });
   }
 });
-export const getTopRepository = createAsyncThunk<
+export const getListTopRepository = createAsyncThunk<
   GetTopRepositoryResponseData,
   GetRepositoryVariables,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { rejectValue: any }
->("repositories/fetchSomeData", async (_, thunkAPI) => {
+>("repositories/fetchSomeData", async (params, thunkAPI) => {
   try {
     const response = await client.query({
       query: TOP_REPOS,
+      variables: { getQuery: params.getQuery },
     });
     return response.data;
   } catch (error) {

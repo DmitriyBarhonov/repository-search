@@ -1,8 +1,17 @@
-import { Action, ThunkDispatch, combineReducers, configureStore } from "@reduxjs/toolkit";
-import { resporsReducer } from "./app-reducer/repos-reducer";
+import {
+  Action,
+  ThunkDispatch,
+  combineReducers,
+  configureStore,
+} from "@reduxjs/toolkit";
+import { repositoryReducer } from "./repository-reducer/repository-reducer";
+import { cardReducer } from "./card-reducer/card-reducer";
+import { appReducer } from "./app-reducer";
 
 const rootReducer = combineReducers({
-  repo: resporsReducer,
+  repository: repositoryReducer,
+  cadrRepository: cardReducer,
+  app: appReducer
 });
 
 export const store = configureStore({
@@ -11,9 +20,11 @@ export const store = configureStore({
   },
 });
 
-export type AppStateType = ReturnType<typeof rootReducer>
-export type ThunkAppDispatch = ThunkDispatch<AppStateType, void, Action>
-export type ErrorType = { messages: Array<{ message: string, code?: number }>}
-export type ThunkError = { rejectValue: ErrorType | null }
-// НУЖЕН ЗАПРОС НА ПОСИК РЕПОЗИТОРИЕМ
-// запрос за конкретной репой
+// @ts-ignore 
+// window.store()
+window.store = store.getState;
+
+export type AppStateType = ReturnType<typeof store.getState>;
+export type ThunkAppDispatch = ThunkDispatch<AppStateType, void, Action>;
+export type ErrorType = { messages: Array<{ message: string; code?: number }> };
+export type ThunkError = { rejectValue: ErrorType | null };

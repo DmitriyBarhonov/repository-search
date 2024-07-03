@@ -1,10 +1,14 @@
-import React from "react";
 import "./App.css";
-import { HomePage } from "./pages/HomePage";
+import { BrowserRouter } from "react-router-dom";
+import { AppWrapper } from "./app/ui/AppWrapper";
 
 
 function App() {
-  return <HomePage />;
+  return (
+    <BrowserRouter>
+      <AppWrapper />
+    </BrowserRouter>
+  );
 }
 
 export default App;
