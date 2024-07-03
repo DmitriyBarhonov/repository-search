@@ -21,4 +21,4 @@ Installation and launch
    </ul>
 
 When running locally, available at http://localhost:5173/<br>
-The application will be hosted soon.
+Deployed application https://66859e5ba1c92d7f39ce7845--fastidious-scone-1c08f6.netlify.app/
